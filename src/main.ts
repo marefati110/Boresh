@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { PORT } from 'src/config/app.config';
 import {
   DocumentBuilder,
@@ -8,6 +8,16 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import { RedocModule, RedocOptions } from 'nestjs-redoc';
+
+process.on('unhandledRejection', (error) => {
+  // eslint-disable-next-line no-console
+  console.error(error);
+});
+
+process.on('uncaughtException', (error) => {
+  // eslint-disable-next-line no-console
+  console.error(error);
+});
 
 const logger = new Logger('APP');
 
