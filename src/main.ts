@@ -33,7 +33,7 @@ async function bootstrap() {
   };
 
   const document = SwaggerModule.createDocument(app, config, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
 
   const redocOptions: RedocOptions = {
     title: 'Hello Nest',
@@ -48,7 +48,7 @@ async function bootstrap() {
     requiredPropsFirst: true,
   };
   // Instead of using SwaggerModule.setup() you call this module
-  await RedocModule.setup('/docs', app as any, document, redocOptions);
+  await RedocModule.setup('/redoc', app as any, document, redocOptions);
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -59,6 +59,9 @@ async function bootstrap() {
   await app.listen(PORT);
 
   logger.log(`server is running on http://localhost:${PORT}`);
-  logger.log(`swagger is available on http://localhost:${PORT}/api`);
+  logger.log(`swagger is available on http://localhost:${PORT}/swagger`);
+  logger.log(`redoc is available on http://localhost:${PORT}/redoc`);
+  logger.log(`swagger is available on http://localhost:${PORT}/queues`);
 }
+
 bootstrap();
