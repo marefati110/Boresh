@@ -1,19 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { PORT } from 'src/config/app.config';
 import {
   DocumentBuilder,
   SwaggerDocumentOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { RedocModule, RedocOptions } from 'nestjs-redoc';
 
 const logger = new Logger('APP');
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    snapshot: true,
-  });
+  const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
     .setTitle('Boresh APi')
@@ -27,6 +26,21 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
+
+  const redocOptions: RedocOptions = {
+    title: 'Hello Nest',
+    logo: {
+      url: 'https://redocly.github.io/redoc/petstore-logo.png',
+      backgroundColor: '#F0F0F0',
+      altText: 'PetStore logo',
+    },
+    sortPropsAlphabetically: true,
+    hideDownloadButton: false,
+    hideHostname: false,
+    requiredPropsFirst: true,
+  };
+  // Instead of using SwaggerModule.setup() you call this module
+  await RedocModule.setup('/docs', app as any, document, redocOptions);
 
   app.useGlobalPipes(
     new ValidationPipe({
