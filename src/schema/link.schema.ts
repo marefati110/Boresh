@@ -1,19 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-
-export type LinkDocument = HydratedDocument<Link>;
+import { ApiProperty } from '@nestjs/swagger';
+import { Domain } from 'src/schema/domain.schema';
+import * as mongoose from 'mongoose';
+import { BaseSchema } from 'src/common/base.schema';
 
 @Schema()
-export class Link {
+export class Link extends BaseSchema {
+  @Prop({ type: mongoose.Schema.ObjectId, ref: Domain.name, required: true })
+  domain: Domain;
+
+  @ApiProperty()
   @Prop({ required: true })
   target: string;
 
+  @ApiProperty()
   @Prop({ default: 301 })
   code: number;
 
-  @Prop({ default: 1 })
+  @Prop({ index: true })
   id: number;
 
+  @Prop({ index: true })
+  slug: string;
+
+  @ApiProperty()
   @Prop()
   ttl: Date;
 }

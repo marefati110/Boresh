@@ -3,7 +3,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SaveLink } from 'src/DTOs/link.dto';
 import { LinkService } from 'src/services/link.service';
 
-@ApiTags('link')
+@ApiTags('Link')
 @Controller('link')
 export class LinkController {
   constructor(private linkService: LinkService) {}
