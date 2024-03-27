@@ -8,6 +8,11 @@ import { Domain, DomainSchema } from 'src/schema/domain.schema';
 import { DomainController } from 'src/controllers/domain.controller';
 import { DomainService } from 'src/services/domain.service';
 import { Log, LogSchema } from 'src/schema/log.schema';
+import { BullModule } from '@nestjs/bull';
+import { REDIS_HOST, REDIS_PORT } from 'src/config/app.config';
+import { Queue } from 'src/enums/queue.enum';
+import { BullBoardModule } from '@bull-board/nestjs';
+import { ExpressAdapter } from '@bull-board/express';
 
 const Models: ModelDefinition[] = [
   {
@@ -28,6 +33,23 @@ const Models: ModelDefinition[] = [
   imports: [
     MongooseModule.forRoot('mongodb://localhost/boresh'),
     MongooseModule.forFeature(Models),
+    BullModule.forRoot({
+      redis: {
+        host: REDIS_HOST,
+        port: REDIS_PORT,
+      },
+    }),
+    BullModule.registerQueue({
+      name: Queue.LOG,
+    }),
+    BullBoardModule.forRoot({
+      route: '/queues',
+      adapter: ExpressAdapter,
+    }),
+    // BullBoardModule.forFeature({
+    //   name: Queue.LOG,
+    //   adapter: new ,
+    // }),
   ],
   providers: [LinkService, DomainService],
   controllers: [AppController, LinkController, DomainController],
