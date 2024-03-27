@@ -10,12 +10,10 @@ import {
 import { RedocModule, RedocOptions } from 'nestjs-redoc';
 
 process.on('unhandledRejection', (error) => {
-  // eslint-disable-next-line no-console
   console.error(error);
 });
 
 process.on('uncaughtException', (error) => {
-  // eslint-disable-next-line no-console
   console.error(error);
 });
 
