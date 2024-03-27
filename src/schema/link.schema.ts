@@ -13,7 +13,7 @@ export class Link extends BaseSchema {
   @Prop({ required: true })
   target: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @Prop({ default: 301 })
   code: number;
 

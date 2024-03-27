@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { SaveLink } from 'src/DTOs/link.dto';
+import { Decode, Encode } from 'src/lib/encoder';
 import { Domain } from 'src/schema/domain.schema';
 import { Link } from 'src/schema/link.schema';
 
@@ -28,7 +29,9 @@ export class LinkService {
     return domain;
   }
 
-  async getLink(id: string) {
+  async getLink(identity: string) {
+    const id = Decode(identity);
+
     const link = await this.linkModel.findOne({
       id,
     });
@@ -36,21 +39,21 @@ export class LinkService {
     return link;
   }
 
-  async delete(id: string) {}
-
   async create(data: SaveLink) {
     const id = await this.getId();
     const domain = await this.getDomain(data.hostname);
+    const hashId = Encode(id);
 
-    const createdCat = new this.linkModel({
+    const result = new this.linkModel({
       ...data,
       id,
       domain,
+      hashId,
       code: data.code || 302,
     });
 
-    console.log(createdCat);
+    console.log(result);
 
-    return createdCat.save();
+    return result.save();
   }
 }
