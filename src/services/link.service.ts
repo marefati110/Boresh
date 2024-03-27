@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { DEFAULT_SITE } from 'src/config/app.config';
 import { SaveLink } from 'src/DTOs/link.dto';
 import { Decode, Encode } from 'src/lib/encoder';
 import { Domain } from 'src/schema/domain.schema';
@@ -32,6 +37,10 @@ export class LinkService {
   async getLink(identity: string) {
     const id = Decode(identity);
 
+    if (!id) {
+      throw new BadRequestException('identity is not valid ');
+    }
+
     const link = await this.linkModel.findOne({
       id,
     });
@@ -41,7 +50,7 @@ export class LinkService {
 
   async create(data: SaveLink) {
     const id = await this.getId();
-    const domain = await this.getDomain(data.hostname);
+    const domain = await this.getDomain(data.hostname || DEFAULT_SITE);
     const hashId = Encode(id);
 
     const result = new this.linkModel({

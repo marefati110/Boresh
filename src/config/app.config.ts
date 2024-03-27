@@ -2,6 +2,8 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+export const IsProd = process.env.NODE_ENV === 'production';
+
 // server
 export const PORT = +process.env.PORT || 3000;
 
@@ -14,3 +16,6 @@ export const REDIS_PORT = +process.env.REDIS_PORT || 6379;
 
 // app
 export const DEFAULT_SITE = process.env.DEFAULT_SITE;
+
+export const NOTFOUND_STRATEGY: '404' | 'redirect' | 'homepage' =
+  (process.env.NOTFOUND_STRATEGY as any) || '404';

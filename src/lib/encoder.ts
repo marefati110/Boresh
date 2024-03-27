@@ -6,6 +6,10 @@ export function Encode(ids: number[]): string {
   return hashids.encode(ids);
 }
 
-export function Decode(str: string): number {
-  return hashids.decode(str).at(0) as number;
+export function Decode(str: string): number | null {
+  try {
+    return hashids.decode(str).at(0) as number;
+  } catch {
+    return null;
+  }
 }

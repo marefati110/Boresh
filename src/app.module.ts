@@ -15,6 +15,9 @@ import { BullBoardModule } from '@bull-board/nestjs';
 import { ExpressAdapter } from '@bull-board/express';
 import { BullAdapter } from '@bull-board/api/bullAdapter';
 import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-ioredis-yet';
+import { QueueService } from 'src/services/queue.service';
+import { LogService } from 'src/services/log.service';
 
 const Models: ModelDefinition[] = [
   {
@@ -35,8 +38,17 @@ const Models: ModelDefinition[] = [
   imports: [
     MongooseModule.forRoot('mongodb://localhost/boresh'),
     MongooseModule.forFeature(Models),
-    CacheModule.register({
-      isGlobal: true,
+    CacheModule.registerAsync({
+      useFactory: async () => {
+        const store = await redisStore({
+          host: REDIS_HOST,
+          port: REDIS_PORT,
+        });
+
+        return {
+          store: store,
+        };
+      },
     }),
     BullModule.forRoot({
       redis: {
@@ -56,7 +68,7 @@ const Models: ModelDefinition[] = [
       adapter: BullAdapter,
     }),
   ],
-  providers: [LinkService, DomainService],
+  providers: [LinkService, DomainService, QueueService, LogService],
   controllers: [AppController, LinkController, DomainController],
 })
 export class AppModule {}
