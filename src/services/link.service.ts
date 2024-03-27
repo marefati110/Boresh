@@ -28,6 +28,16 @@ export class LinkService {
     return domain;
   }
 
+  async getLink(id: string) {
+    const link = await this.linkModel.findOne({
+      id,
+    });
+
+    return link;
+  }
+
+  async delete(id: string) {}
+
   async create(data: SaveLink) {
     const id = await this.getId();
     const domain = await this.getDomain(data.hostname);

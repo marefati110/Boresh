@@ -17,8 +17,12 @@ export class Link extends BaseSchema {
   @Prop({ default: 301 })
   code: number;
 
-  @Prop({ index: true })
+  @Prop({ index: true, unique: true })
   id: number;
+
+  @ApiProperty()
+  @Prop({ required: true, unique: true, index: true })
+  hashId: string;
 
   @Prop({ index: true })
   slug: string;
