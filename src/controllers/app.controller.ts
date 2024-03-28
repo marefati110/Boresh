@@ -1,10 +1,20 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Controller, Get, Inject, Ip, Param, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  Ip,
+  NotFoundException,
+  Param,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Cache } from 'cache-manager';
 import { Response } from 'express';
 import { LogJob } from 'src/DTOs/queue.dto';
 import { Queue } from 'src/enums/queue.enum';
+import { Link } from 'src/schema/link.schema';
 import { LinkService } from 'src/services/link.service';
 import { QueueService } from 'src/services/queue.service';
 
@@ -17,31 +27,36 @@ export class AppController {
     private queueService: QueueService,
   ) {}
 
-  @Get(':identity')
+  @Get(':slug')
   async redirect(
-    @Param('identity') identity: string,
+    @Param('slug') slug: string,
     @Res() res: Response,
     @Req() req: Request,
     @Ip() ip: string,
   ) {
-    const link = await this.linkService.getLink(identity);
+    let link: Link;
+
+    link = await this.cacheManager.get(slug);
 
     if (!link) {
+      link = await this.linkService.getLink(slug);
     }
 
-    // const cache = await this.cacheManager.get(identity);
-    const ua = req.headers?.['user-agent'];
+    if (!link) {
+      throw new NotFoundException('notfound');
+    }
 
-    const job: LogJob = {
+    res.status(link.code || 302);
+    res.redirect(link.target);
+
+    await this.queueService.send<LogJob>(Queue.LOG, {
       ip,
-      ua,
-    };
-    this.queueService.send(Queue.LOG, job);
+      slug,
+      ua: req.headers?.['user-agent'],
+      referer: req.headers?.['referer'],
+    });
 
-    return res.end('ok');
-
-    await this.cacheManager.set(identity, link, 60 * 60);
-    // res.status(302);
-    // res.redirect('https://google.com');
+    const ttl = 1000 * 60 * 60 * 24 * 1;
+    await this.cacheManager.set(slug, link, ttl);
   }
 }
