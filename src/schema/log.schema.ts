@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { BaseSchema } from 'src/common/base.schema';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Log extends BaseSchema {
   @Prop()
   slug: string;

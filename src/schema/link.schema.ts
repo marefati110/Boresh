@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseSchema } from 'src/common/base.schema';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Link extends BaseSchema {
   @ApiProperty({ required: false })
   @Prop()

@@ -17,6 +17,7 @@ import { Queue } from 'src/enums/queue.enum';
 import { Link } from 'src/schema/link.schema';
 import { LinkService } from 'src/services/link.service';
 import { QueueService } from 'src/services/queue.service';
+import { TemplateEngine } from 'src/services/templateEngine.service';
 
 @ApiTags('App')
 @Controller()
@@ -25,6 +26,7 @@ export class AppController {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private linkService: LinkService,
     private queueService: QueueService,
+    private templateEngine: TemplateEngine,
   ) {}
 
   @Get(':slug')
@@ -45,6 +47,16 @@ export class AppController {
     if (!link) {
       throw new NotFoundException('notfound');
     }
+
+    if (1) {
+      console.log('ali');
+
+      const html = await this.templateEngine.compileRedirectPage({});
+
+      return res.end(html);
+    }
+
+    // res.render('ali', {});
 
     res.status(link.code || 302);
     res.redirect(link.target);

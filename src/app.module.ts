@@ -15,6 +15,9 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-ioredis-yet';
 import { QueueService } from 'src/services/queue.service';
 import { LogService } from 'src/services/log.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { TemplateEngine } from 'src/services/templateEngine.service';
 
 const Models: ModelDefinition[] = [
   {
@@ -31,6 +34,9 @@ const Models: ModelDefinition[] = [
   imports: [
     MongooseModule.forRoot('mongodb://localhost/boresh'),
     MongooseModule.forFeature(Models),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     CacheModule.registerAsync({
       useFactory: async () => {
         const store = await redisStore({
@@ -61,7 +67,7 @@ const Models: ModelDefinition[] = [
       adapter: BullAdapter,
     }),
   ],
-  providers: [LinkService, QueueService, LogService],
+  providers: [LinkService, QueueService, LogService, TemplateEngine],
   controllers: [AppController, LinkController],
 })
 export class AppModule {}
