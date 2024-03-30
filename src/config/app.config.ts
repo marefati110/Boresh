@@ -18,6 +18,7 @@ export const REDIS_PORT = +process.env.REDIS_PORT || 6379;
 
 export const TITLE = process.env.TITLE;
 export const LOGO_URL = process.env.LOGO_URL;
+export const THEME_COLOR = process.env.THEME_COLOR || '#348FF4';
 
 export const NOTFOUND_STRATEGY: '404' | 'redirect' | 'homepage' =
   (process.env.NOTFOUND_STRATEGY as any) || '404';

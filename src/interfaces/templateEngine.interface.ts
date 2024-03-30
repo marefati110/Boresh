@@ -1,5 +1,9 @@
 export class RedirectPageData {
+  target: string;
+  confirm: boolean;
+  autoRedirect: boolean;
+
   title?: string;
-  logo?: string;
+  logoURL?: string;
   color?: string;
 }

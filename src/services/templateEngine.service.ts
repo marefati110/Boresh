@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import Handlebars from 'handlebars';
-import { IsProd } from 'src/config/app.config';
+import { RedirectPageData } from 'src/interfaces/templateEngine.interface';
 
 @Injectable()
 export class TemplateEngine {
@@ -14,7 +14,7 @@ export class TemplateEngine {
     return template(data);
   }
 
-  async compileRedirectPage(data: any) {
+  async compileRedirectPage(data: RedirectPageData) {
     const redirectTemplate = readFileSync('src/templates/redirect.hbs', 'utf8');
     return await this.compile(redirectTemplate, data);
   }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
 import { ModelDefinition, MongooseModule } from '@nestjs/mongoose';
 import { LinkService } from 'src/services/link.service';
@@ -18,6 +18,7 @@ import { LogService } from 'src/services/log.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { TemplateEngine } from 'src/services/templateEngine.service';
+import { MorganMiddleware } from '@nest-middlewares/morgan';
 
 const Models: ModelDefinition[] = [
   {
@@ -70,4 +71,8 @@ const Models: ModelDefinition[] = [
   providers: [LinkService, QueueService, LogService, TemplateEngine],
   controllers: [AppController, LinkController],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(MorganMiddleware).forRoutes();
+  }
+}

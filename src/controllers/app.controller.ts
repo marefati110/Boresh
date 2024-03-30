@@ -13,6 +13,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Cache } from 'cache-manager';
 import { Response } from 'express';
+import { LOGO_URL, THEME_COLOR, TITLE } from 'src/config/app.config';
 import { LogJob } from 'src/DTOs/queue.dto';
 import { Queue } from 'src/enums/queue.enum';
 import { Link } from 'src/schema/link.schema';
@@ -49,22 +50,25 @@ export class AppController {
       throw new NotFoundException('notfound');
     }
 
-    await this.queueService.send<LogJob>(Queue.LOG, {
+    this.queueService.send<LogJob>(Queue.LOG, {
       ip,
       slug,
       ua: req.headers?.['user-agent'],
       referer: req.headers?.['referer'],
     });
 
-    const ttl = 1000 * 60 * 60 * 24 * 1;
-    await this.cacheManager.set(slug, link, ttl);
-
-    if (link.strategy === 'ads' || link.strategy === 'confirm') {
+    if (link.strategy === 'timer' || link.strategy === 'confirm') {
       const html = await this.templateEngine.compileRedirectPage({
-        target: 'https:doctop.com',
+        target: link.target,
+        autoRedirect: link.strategy === 'timer',
+        confirm: link.strategy === 'confirm',
+
+        color: THEME_COLOR,
+        logoURL: LOGO_URL,
+        title: TITLE,
       });
 
-      res.status(link.code || 302);
+      res.status(302);
       return res.end(html);
 
       //
@@ -72,6 +76,11 @@ export class AppController {
       res.status(link.code || 302);
       return res.redirect(link.target);
     }
+
+    console.log(link.strategy);
+
+    const ttl = 1000 * 60 * 60 * 24 * 1;
+    await this.cacheManager.set(slug, link, ttl);
 
     throw new InternalServerErrorException('strategy is not defined');
   }

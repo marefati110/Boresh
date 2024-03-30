@@ -29,7 +29,7 @@ export class Link extends BaseSchema {
 
   @ApiProperty({ required: false })
   @Prop({ default: 'none' })
-  strategy: 'confirm' | 'none' | 'ads';
+  strategy: 'timer' | 'none' | 'confirm';
 }
 
 export const LinkSchema = SchemaFactory.createForClass(Link);

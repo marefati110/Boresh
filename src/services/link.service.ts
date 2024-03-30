@@ -15,8 +15,8 @@ export class LinkService {
     return id + 1;
   }
 
-  async getLink(identity: string) {
-    const id = Decode(identity);
+  async getLink(slug: string) {
+    const id = Decode(slug);
 
     if (!id) {
       throw new BadRequestException('identity is not valid ');
@@ -31,12 +31,12 @@ export class LinkService {
 
   async create(data: SaveLink) {
     const id = await this.getId();
-    const hashId = Encode(id);
+    const slug = Encode(id);
 
     const result = new this.linkModel({
       ...data,
       id,
-      hashId,
+      slug,
       code: data.code || 302,
       strategy: data.strategy || 'none',
     });
