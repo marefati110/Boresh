@@ -1,12 +1,157 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="css/output.css" rel="stylesheet" />
-  </head>
-  <body>
-    <h1 class="text-3xl font-bold underline text-green-700">Hello world!</h1>
-		ali
-  </body>
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.jpg">
+	<link href="css/output.css" rel="stylesheet">
+	<meta name="theme-color" content="#107ABE">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<meta name="robots" content="noindex,nofollow,noarchive" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+
+	<title>در حال انتقال به لینک مورد نظر</title>
+
+	<noscript>
+		<meta http-equiv="refresh" content="5000;URL=!{redirect_url}">
+	</noscript>
+
+	<script>
+		const time = 5000
+		let counter = time / 1000
+
+
+		function handleRedirect() {
+			location.replace("{{target}}")
+		}
+
+
+		setTimeout(() => {
+			return
+			location.replace("{{target}}")
+		}, time)
+
+
+
+		setInterval(() => {
+			if (counter <= 0) {
+				return
+			}
+			counter = counter - 1
+			document.getElementById('timer').innerHTML = counter
+
+		}, 1000)
+	</script>
+
+	<style>
+		html,
+		body {
+			margin: 0;
+			font-family: "Vazirmatn", sans-serif;
+			font-size: 16px;
+		}
+
+		body {
+			background: #E6E6E6;
+		}
+	</style>
+
+</head>
+
+<body class="h-[100dvh] flex flex-col relative">
+	{{!-- RIGHT <SIDE></SIDE> --}}
+	<div class="right-0 top-0 w-[40%] absolute hidden lg:block"><svg width="887" height="385" viewBox="0 0 887 385"
+			fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-full">
+			<path
+				d="M191.25 -50.5V338.295C191.25 360.386 173.341 378.295 151.25 378.295H46.1077C24.0163 378.295 6.10767 360.386 6.10767 338.295V218.486C6.10767 196.394 24.0163 178.486 46.1077 178.486H892"
+				stroke="#348FF4" stroke-width="12"></path>
+			<g filter="url(#filter0_dd_10337_14)">
+				<circle cx="188" cy="181" r="32" fill="#F1F2F4"></circle>
+				<path fill-rule="evenodd" clip-rule="evenodd"
+					d="M190.667 178.333V167.667C190.667 166.959 190.386 166.281 189.886 165.781C189.386 165.281 188.707 165 188 165C187.293 165 186.615 165.281 186.115 165.781C185.615 166.281 185.334 166.959 185.334 167.667V178.333H174.667C173.96 178.333 173.281 178.614 172.781 179.114C172.281 179.614 172 180.293 172 181C172 181.707 172.281 182.385 172.781 182.886C173.281 183.386 173.96 183.667 174.667 183.667H185.334V194.333C185.334 195.041 185.615 195.719 186.115 196.219C186.615 196.719 187.293 197 188 197C188.707 197 189.386 196.719 189.886 196.219C190.386 195.719 190.667 195.041 190.667 194.333V183.667H201.334C202.041 183.667 202.719 183.386 203.219 182.886C203.719 182.385 204 181.707 204 181C204 180.293 203.719 179.614 203.219 179.114C202.719 178.614 202.041 178.333 201.334 178.333H190.667Z"
+					fill="#348FF4"></path>
+			</g>
+		</svg>
+	</div>
+
+	{{!-- LEFT SIDE --}}
+	<div class="w-[40%] absolute hidden lg:block">
+		<div class="top-[200px] w-full z-2 left-0 absolute">
+
+			<div class="bg-[#F1F2F4] w-full flex items-center p-10 rounded-tr-3xl rounded-br-3xl gap-10">
+
+				{{!-- text skeleton --}}
+				<div class="flex flex-col w-full gap-3">
+					<div class="bg-[#E6E6E6] w-full rounded-full p-1 h-7">
+					</div>
+					<div class="bg-[#E6E6E6] w-[40%] ml-auto rounded-full p-1 h-7">
+					</div>
+				</div>
+
+
+				<p hidden dir="rtl" style="line-height: 1.9rem;" class="text-slate-700  max-w-[80%] flex-1">
+					لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
+				</p>
+
+
+				<svg style="fill: #348FF4;" class="ml-auto" width="100px" height="100px" viewBox="0 0 24 24" fill="none"
+					xmlns="http://www.w3.org/2000/svg">
+					<circle cx="12" cy="12" r="10" stroke="#1C274C" stroke-width="0" />
+					<path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+						stroke-linejoin="round" />
+				</svg>
+
+			</div>
+
+
+		</div>
+	</div>
+
+
+	{{!-- content box --}}
+	<section class="flex flex-col my-auto justify-center items-center gap-4">
+
+		{{!-- <img class="w-[240px] h-[240px] rounded-xl" alt="logo" src="images/favicon.jpg" /> --}}
+
+		{{!-- <p id="timer" class="p-8 font-bold text-slate-700 text-7xl">
+			5
+		</p> --}}
+
+		<div class="bg-[#F1F2F4] p-4 rounded-lg max-w-[320px] flex flex-col">
+
+			<p dir="rtl">
+				شما در حال انتقال به لینک زیر هستید :
+			</p>
+
+			<p dir="ltr" class="font-mono break-words mt-6 px-2 text-sm italic text-teal-700 line-clamp-4">
+				http://localhost:8081/db/boresh/logs
+			</p>
+
+
+			<button onclick="handleRedirect()" style="background-color: #348FF4;"
+				class="text-white mx-auto mt-6 p-2 px-4 rounded-xl">
+				تایید و ادامه
+			</button>
+		</div>
+
+		<div class="mt-6 gap-2 flex flex-col">
+
+			{{!-- <p class="text-lg text-slate-700">
+				...
+				در حال انتقال به لینک مورد نظر
+			</p> --}}
+
+			{{!-- <a href="https://business.virgool.io/" target="_blank" style="background-color: #107abe;"
+				class="flex items-center rounded-full font-medium p-2 px-8 decoration-slice text-white justify-center w-fit mx-auto">
+				متنی باحال اینجا
+			</a> --}}
+
+		</div>
+	</section>
+
+</body>
+
 </html>

@@ -15,7 +15,9 @@ export const REDIS_PORT = +process.env.REDIS_PORT || 6379;
 // mongo
 
 // app
-export const DEFAULT_SITE = process.env.DEFAULT_SITE;
+
+export const TITLE = process.env.TITLE;
+export const LOGO_URL = process.env.LOGO_URL;
 
 export const NOTFOUND_STRATEGY: '404' | 'redirect' | 'homepage' =
   (process.env.NOTFOUND_STRATEGY as any) || '404';

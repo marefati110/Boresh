@@ -10,7 +10,7 @@
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
 		"start": "nest start",
 		"build:css": "yarn tailwindcss -m -i ./src/templates/input.css -o ./public/css/output.css",
-		"dev": "concurrently \"nest start -b swc -w --type-check\" \"tailwindcss -i ./src/templates/input.css -o ./public/css/output.css --watch\"",
+		"dev": "concurrently \"tailwindcss -i ./src/templates/input.css -o ./public/css/output.css --watch\" \"nest start -b swc -w --type-check\"",
 		"start:dev": "nest start --watch",
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/main",

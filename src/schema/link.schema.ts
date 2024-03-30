@@ -26,6 +26,10 @@ export class Link extends BaseSchema {
   @ApiProperty({ required: false })
   @Prop()
   ttl: Date;
+
+  @ApiProperty({ required: false })
+  @Prop({ default: 'none' })
+  strategy: 'confirm' | 'none' | 'ads';
 }
 
 export const LinkSchema = SchemaFactory.createForClass(Link);

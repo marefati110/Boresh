@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Inject,
+  InternalServerErrorException,
   Ip,
   NotFoundException,
   Param,
@@ -48,19 +49,6 @@ export class AppController {
       throw new NotFoundException('notfound');
     }
 
-    if (1) {
-      console.log('ali');
-
-      const html = await this.templateEngine.compileRedirectPage({});
-
-      return res.end(html);
-    }
-
-    // res.render('ali', {});
-
-    res.status(link.code || 302);
-    res.redirect(link.target);
-
     await this.queueService.send<LogJob>(Queue.LOG, {
       ip,
       slug,
@@ -70,5 +58,21 @@ export class AppController {
 
     const ttl = 1000 * 60 * 60 * 24 * 1;
     await this.cacheManager.set(slug, link, ttl);
+
+    if (link.strategy === 'ads' || link.strategy === 'confirm') {
+      const html = await this.templateEngine.compileRedirectPage({
+        target: 'https:doctop.com',
+      });
+
+      res.status(link.code || 302);
+      return res.end(html);
+
+      //
+    } else if (link.strategy === 'none') {
+      res.status(link.code || 302);
+      return res.redirect(link.target);
+    }
+
+    throw new InternalServerErrorException('strategy is not defined');
   }
 }

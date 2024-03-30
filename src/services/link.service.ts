@@ -38,6 +38,7 @@ export class LinkService {
       id,
       hashId,
       code: data.code || 302,
+      strategy: data.strategy || 'none',
     });
 
     console.log(result);

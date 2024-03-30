@@ -1,4 +1,5 @@
-import Hashids from 'hashids';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const Hashids = require('hashids/cjs');
 
 const hashids = new Hashids('boresh', 1);
 
