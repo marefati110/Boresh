@@ -19,9 +19,13 @@ export class Link extends BaseSchema {
   @Prop({ index: true, unique: true })
   id: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @Prop({ required: true, unique: true, index: true })
   slug: string;
+
+  @ApiProperty({ required: false })
+  @Prop()
+  password: string;
 
   @ApiProperty({ required: false })
   @Prop()
